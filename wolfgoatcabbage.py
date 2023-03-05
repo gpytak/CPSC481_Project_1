@@ -1,9 +1,12 @@
+# Gregory Pytak and Nolan Winter
+# CPSC 481 Project 1
+
 from search import *
 
 
 class WolfGoatCabbage(Problem):
 
-    def __init__(self, initial={("F", "W", "G", "C")}, goal=(frozenset())):
+    def __init__(self, initial=(("F", "W", "G", "C")), goal=(frozenset())):
         super().__init__(initial, goal)
     
     def goal_test(self, state):
@@ -15,41 +18,39 @@ class WolfGoatCabbage(Problem):
         """ Given state and action, return a new state that is the result of the action.
         Action is assumed to be a valid action in the state """
 
-        new_state = state
-        left_bank = {}
+        new_state = {}
 
         # Moving Farmer and Goat from Left Bank
         if set(state) == {"F", "W", "G", "C"} and action == {"F", "G"}:  # {"F", "G")
-            left_bank = {"W", "C"}
+            new_state = {"W", "C"}
         
         # Taking Wolf or Cabbage from Left bank  # ("F"), ("F", "W"), or ("F", "C")
         if set(state) == {"W", "C"} and action == {"F"}:
-            left_bank = {"F", "W", "C"}
+            new_state = {"F", "W", "C"}
         if set(state) == {"F", "W", "C"} and action == {"F", "W"}:
-            left_bank = ("C",)
+            new_state = ("C",)
         if set(state) == {"F", "W", "C"} and action == {"F", "C"}:
-            left_bank = {"W",}
+            new_state = {"W",}
 
         # Taking Wolf from Left bank  # ("F", "G") or ("F", "W")
         if set(state) == {"W",} and action == {"F", "G"}:
-            left_bank = {"F", "W", "G"}
+            new_state = {"F", "W", "G"}
         if set(state) == {"F", "W", "G"} and action == {"F", "W"}:
-            left_bank = {"G",}
+            new_state = {"G",}
 
         # Taking Cabbage from Left bank  # ("F", "G") or ("F", "C")
         if set(state) == {"C",} and action == {"F", "G"}:
-            left_bank = {"F", "G", "C"}
+            new_state = {"F", "G", "C"}
         if set(state) == {"F", "G", "C"} and action == {"F", "C"}:
-            left_bank = {"G",}
+            new_state = {"G",}
 
         # Taking Goat from Left bank # ("F") or ("F", "G")
         if set(state) == {"G",} and action == {"F"}:
-            left_bank = {"F", "G"}
+            new_state = {"F", "G"}
         if set(state) == {"F", "G"} and action == {"F", "G"}:
-            left_bank = {}
-
-        new_state = frozenset(left_bank)
-        return new_state
+            new_state = {}
+        
+        return frozenset(new_state)
 
     def actions(self, state):
         """ Return the actions that can be executed in the given state.
@@ -98,7 +99,7 @@ class WolfGoatCabbage(Problem):
             del possible_actions[2]
             del possible_actions[1]
             del possible_actions[0]
-
+        
         return possible_actions
 
 def main():
