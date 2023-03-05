@@ -8,7 +8,8 @@ class WolfGoatCabbage(Problem):
     
     def goal_test(self, state):
         """ Given a state, return True if state is a goal state, or False otherwise """
-
+        # print("\nGoal: ", self.goal)
+        # print("State: ", state)
         return state == self.goal
 
     def result(self, state, action):
@@ -21,16 +22,17 @@ class WolfGoatCabbage(Problem):
         new_state = state
         left_bank = {}
 
-        print("State: ", set(state))
-        print("Action: ", action)
+        # print("\nState: ", set(state))
+        # print("Action: ", action)
+        # print()
 
         # Moving Farmer and Goat from Left Bank
         if set(state) == {"F", "W", "G", "C"} and action == {"F", "G"}:  # {"F", "G")
             left_bank = {"W", "C"}
-        if set(state) == {"W", "C"} and action == {"F"}:   # ("F")
-            left_bank = {"W", "C"}
         
-        # Taking Wolf or Cabbage from Left bank  ("F", "W"), or ("F", "C")
+        # Taking Wolf or Cabbage from Left bank  # ("F"), ("F", "W"), or ("F", "C")
+        if set(state) == {"W", "C"} and action == {"F"}:
+            left_bank = {"W", "C"}
         if set(state) == {"W", "C"} and action == {"F", "W"}: 
             left_bank = ("C",)
         if set(state) == {"W", "C"} and action == {"F", "C"}:
@@ -54,8 +56,9 @@ class WolfGoatCabbage(Problem):
         if set(state) == {"G",} and action == {"F", "G"}:
             left_bank = {}
 
-        print("left_bank: ", left_bank)
-        print()
+        # print("left_bank: ", left_bank)
+        # print()
+
         new_state = frozenset(left_bank)
         return new_state
 
@@ -89,10 +92,9 @@ class WolfGoatCabbage(Problem):
             del possible_actions[2]
             del possible_actions[1]
             del possible_actions[0]
-
-        print("State: ", state)
-        print("possible_actions: ", possible_actions)
-        print()
+        # print("=========================================")
+        # print("State: ", state)
+        # print("possible_actions: ", possible_actions)
 
         return possible_actions
 
